@@ -492,8 +492,8 @@ namespace net11 {
 				}
 				return out;
 			}
-			template<class T>
-			void csvheaders(const std::string &k,T& fn,bool param_tolower=false) {
+
+			void csvheaders(const std::string &k,std::function<void(std::string&)> fn,bool param_tolower=false) {
 				auto f=headers.find(k);
 				if (f==headers.end())
 					return;
@@ -547,7 +547,7 @@ namespace net11 {
 			return [route](net11::tcp::connection* tconn) {
 				std::shared_ptr<connection> conn(
 					new connection(tconn,route),
-					[](auto p) { delete p; }
+					[](auto* p) { delete p; }
 				);
 				conn->wthis=conn;
 				tconn->ctx=conn;
@@ -837,7 +837,7 @@ namespace net11 {
 			if (!has_heads)
 				return 0;
 			bool has_upgrade=false;
-			c.csvheaders("connection",[&](auto& hval){ if (hval=="upgrade") has_upgrade=true; },true);
+			c.csvheaders("connection", [&](std::string& hval){ if (hval=="upgrade") has_upgrade=true; },true);
 			if (!has_upgrade) {
 				return 0;
 			}
@@ -951,7 +951,8 @@ namespace net11 {
 				return 0;
 			}
 
-			FILE *f=fopen(tmp.c_str(),"rb");
+			FILE* f;
+			errno_t errorCode = fopen_s(&f, tmp.c_str(), "rb");
 			if (!f)
 				return 0;
 			struct fh {
