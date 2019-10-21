@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <map>
 #include <algorithm>
@@ -397,9 +399,9 @@ namespace net11 {
 							// Chunked encoding if transfer-encoding header exists and isn't set to identity
 							//std::cerr<<"CHUNKED!\n";
 							this->tconn->current_sink=m_chunkedcontentsink;
-						} else if (auto clhead=this->header("content-length")) {
+						} else if (auto clhead=this->header("Content-Length")) {
 							//std::cerr<<"Content LEN\n";
-							// only allow content-length influence IFF no transfer-enc is present
+							// only allow Content-Length influence IFF no transfer-enc is present
 							net11::trim(*clhead);
 							size_t clen=std::stoi(*clhead);
 							m_sizedcontentsink->clen=clen>=0?clen:0;
@@ -581,12 +583,12 @@ namespace net11 {
 
 		response make_blob_response(int code,const std::vector<char> &in_data) {
 			auto rv=make_stream_response(code,make_data_producer(in_data));
-			rv->set_header(std::string("content-length"),std::to_string(in_data.size()));
+			rv->set_header(std::string("Content-Length"),std::to_string(in_data.size()));
 			return rv;
 		}
 		response make_text_response(int code,const std::string &in_data) {
 			auto rv=make_stream_response(code,make_data_producer(in_data));
-			rv->set_header(std::string("content-length"),std::to_string(in_data.size()));
+			rv->set_header(std::string("Content-Length"),std::to_string(in_data.size()));
 			return rv;
 		}
 
@@ -977,7 +979,7 @@ namespace net11 {
 				}
 				return true;
 			});
-			out->set_header("content-length",std::to_string(stbuf.st_size));
+			out->set_header("Content-Length",std::to_string(stbuf.st_size));
 			return out;
 		}
 
@@ -1009,7 +1011,7 @@ namespace net11 {
 
 			inline bool responsedata::produce(connection &conn) {
 				produce_headers(conn);
-				if (head.count("content-length")) {
+				if (head.count("Content-Length")) {
 					conn.tconn->producers.push_back(prod);
 				} else {
 					// TODO: implement chunked responses?

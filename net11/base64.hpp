@@ -1,6 +1,3 @@
-#ifndef __INCLUDED_NET11_BASE64_H__
-#define __INCLUDED_NET11_BASE64_H__
-
 #pragma once
 
 namespace net11 {
@@ -113,5 +110,3 @@ namespace net11 {
 		}
 	};
 };
-
-#endif // __INCLUDED_NET11_BASE64_H__

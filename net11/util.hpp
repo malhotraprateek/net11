@@ -1,6 +1,3 @@
-#ifndef __INCLUDED_NET11_UTIL_HPP__
-#define __INCLUDED_NET11_UTIL_HPP__
-
 #pragma once
 
 #include <stdint.h>
@@ -474,5 +471,3 @@ namespace net11 {
 		return elval;
 	}
 }
-
-#endif // __INCLUDED_NET11_UTIL_HPP__

@@ -1,6 +1,3 @@
-#ifndef __INCLUDED_NET11_SHA1_HPP__
-#define __INCLUDED_NET11_SHA1_HPP__
-
 #pragma once
 
 #include <stdint.h>
@@ -170,5 +167,3 @@ namespace net11 {
 		}
 	};
 }
-
-#endif // __INCLUDED_NET11_SHA1_HPP__
